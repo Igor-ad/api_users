@@ -18,8 +18,8 @@ cd ./api_users
 cp ./src/.env.dev ./src/.env
 composer install
 docker-compose up
-## php bin/console doctrine:migrations:migrate ## Test Data
-php bin/console doctrine:fixtures:load
+php bin/console doctrine:migrations:migrate
+## php bin/console doctrine:fixtures:load ## Test Data
 ```
 
 ### Routes
