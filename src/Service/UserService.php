@@ -16,7 +16,8 @@ class UserService
         protected EntityManagerInterface      $entityManager,
         protected UserPasswordHasherInterface $passwordHasher,
         protected UserRepository              $repository
-    ) {}
+    ) {
+    }
 
     public function list(): array
     {

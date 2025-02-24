@@ -32,7 +32,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_NOT_FOUND,
                     'error' => 'Not Found.'
-                ], Response::HTTP_NOT_FOUND
+                ],
+                Response::HTTP_NOT_FOUND
             );
 
             $event->setResponse($response);
@@ -43,7 +44,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_METHOD_NOT_ALLOWED,
                     'message' => 'Method Not Allowed.'
-                ], Response::HTTP_METHOD_NOT_ALLOWED
+                ],
+                Response::HTTP_METHOD_NOT_ALLOWED
             );
 
             $event->setResponse($response);
@@ -54,7 +56,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
                     'message' => 'Undefined Method.'
-                ], Response::HTTP_INTERNAL_SERVER_ERROR
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
 
             $event->setResponse($response);
@@ -65,7 +68,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Bad Request.'
-                ], Response::HTTP_BAD_REQUEST
+                ],
+                Response::HTTP_BAD_REQUEST
             );
 
             $event->setResponse($response);
@@ -76,7 +80,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
                     'message' => 'Data Base Exception.'
-                ], Response::HTTP_INTERNAL_SERVER_ERROR
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
 
             $event->setResponse($response);
@@ -87,7 +92,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
                     'message' => 'Unexpected Value.'
-                ], Response::HTTP_INTERNAL_SERVER_ERROR
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
 
             $event->setResponse($response);
@@ -98,7 +104,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
                     'message' => 'Security Runtime Exception.'
-                ], Response::HTTP_INTERNAL_SERVER_ERROR
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
 
             $event->setResponse($response);
@@ -112,7 +119,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_FORBIDDEN,
                     'message' => 'Access denied to this resource.'
-                ], Response::HTTP_FORBIDDEN
+                ],
+                Response::HTTP_FORBIDDEN
             );
 
             $event->setResponse($response);
@@ -134,7 +142,8 @@ final class ExceptionListener
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
                     'errors' => $errors
-                ], Response::HTTP_BAD_REQUEST
+                ],
+                Response::HTTP_BAD_REQUEST
             );
 
             $event->setResponse($response);

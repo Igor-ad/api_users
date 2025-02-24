@@ -16,7 +16,8 @@ readonly class UserResource
         public ?string $login,
         public ?string $phone,
         public ?string $pass,
-    ) {}
+    ) {
+    }
 
     public static function fromEntity(User $user): self
     {
