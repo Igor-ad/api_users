@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Entity\User;
+use App\Enum\Roles;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -25,11 +26,11 @@ final class UserVoter extends Voter
     {
         $user = $token->getUser();
 
-        if ((!$user instanceof User) or (!in_array('ROLE_USER', $user->getRoles()))) {
+        if ((!$user instanceof User) or (!in_array(Roles::User->value, $user->getRoles()))) {
             return false;
         }
 
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array(Roles::Admin->value, $user->getRoles())) {
             return true;
         }
 

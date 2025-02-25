@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Enum\Roles;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -16,21 +17,21 @@ class UserFixtures extends Fixture
         'login' => 'admin1',
         'phone' => '06712345',
         'pass' => '12345678',
-        'roles' => ['ROLE_ADMIN', 'ROLE_USER'],
+        'roles' => [Roles::Admin->value, Roles::User->value],
     ];
 
     public const USER_1 = [
         'login' => 'user1',
         'phone' => '05098754',
         'pass' => 'user1234',
-        'roles' => ['ROLE_USER'],
+        'roles' => [Roles::User->value],
     ];
 
     public const USER_2 = [
         'login' => 'user2',
         'phone' => '06398754',
         'pass' => '12345678',
-        'roles' => ['ROLE_USER'],
+        'roles' => [Roles::User->value],
     ];
 
     public const USERS = [self::ADMIN, self::USER_1, self::USER_2];

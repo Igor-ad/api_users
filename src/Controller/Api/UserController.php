@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Enum\Roles;
 use App\Resource\UserResource;
 use App\Security\Voter\UserVoter;
 use App\Service\UserService;
@@ -29,7 +30,7 @@ class UserController extends AbstractController
     }
 
     #[Route('', name: 'list', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted(Roles::Admin->value)]
     public function getUsers(): JsonResponse
     {
         $resources = $this->service->list();
@@ -69,7 +70,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted(Roles::Admin->value)]
     public function delete(User $user): JsonResponse
     {
         $this->service->delete($user);
