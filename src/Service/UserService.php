@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Resource\UserResource;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
@@ -15,7 +16,8 @@ class UserService
     public function __construct(
         protected EntityManagerInterface      $entityManager,
         protected UserPasswordHasherInterface $passwordHasher,
-        protected UserRepository              $repository
+        protected UserRepository              $repository,
+        protected JWTTokenManagerInterface    $tokenManager,
     ) {
     }
 
@@ -34,8 +36,9 @@ class UserService
         $user = getenv('APP_ENV') == 'test' ? $user : $this->passwordHanding($user);
         $user->setRoles();
         $this->repository->save($user, true);
+        $token = $this->tokenManager->create($user);
 
-        return UserResource::fromEntity($user)->getCreateResource();
+        return UserResource::fromEntity($user)->getCreateResource($token);
     }
 
     public function update(User $user, User $updatedUser): array
@@ -47,9 +50,10 @@ class UserService
             $user = (getenv('APP_ENV') === 'test') ? $user : $this->passwordHanding($user);
         }
 
+        $token = $this->tokenManager->create($user);
         $this->entityManager->flush();
 
-        return UserResource::fromEntity($user)->getUpdateResource();
+        return UserResource::fromEntity($user)->getUpdateResource($token);
     }
 
     public function delete(User $user): void

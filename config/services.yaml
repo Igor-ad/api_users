@@ -6,6 +6,8 @@
 parameters:
     sensitive_fields: ['pass']
     include_confidential_fields: '%env(INCLUDE_CONFIDENTIAL_FIELDS)%'
+    app_host: '%env(APP_HOST)%'
+    allowed_schemes: '%env(APP_SCHEMES)%'
 
 services:
     # default configuration for services in *this* file

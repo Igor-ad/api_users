@@ -26,12 +26,12 @@ php bin/console doctrine:migrations:migrate
 
 ```
   Name               Method   Scheme   Host   Path
-  api_users_list     GET      ANY      ANY    /v1/api/users
-  api_users_show     GET      ANY      ANY    /v1/api/users/{id}
-  api_users_create   POST     ANY      ANY    /v1/api/users
-  api_users_update   PUT      ANY      ANY    /v1/api/users/{id}
-  api_users_delete   DELETE   ANY      ANY    /v1/api/users/{id}
-  api_login          POST     ANY      ANY    /api/login
+  api_users_list     GET      http     localhost   /v1/api/users
+  api_users_show     GET      http     localhost   /v1/api/users/{id}
+  api_users_create   POST     http     localhost   /v1/api/users
+  api_users_update   PUT      http     localhost   /v1/api/users/{id}
+  api_users_delete   DELETE   http     localhost   /v1/api/users/{id}
+  api_login          POST     http     localhost   /api/login
 ```
 
 ### Security Warning!
@@ -39,7 +39,7 @@ php bin/console doctrine:migrations:migrate
 ####  The test version with the .env.test environment uses unhashed passwords in the database and json responses.
 
 
-#### Response Examples
+### Response Examples
 
 ```
 POST
@@ -63,7 +63,7 @@ show response:
 {"login":"user1","phone":"0671231","pass":"***"}
 ```
 
-#### Errors:
+### Errors
 
 ```
 Validation Error:

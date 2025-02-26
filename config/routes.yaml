@@ -3,7 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+    host: '%app_host%'
+    schemes: '%allowed_schemes%'
 
 api_login:
     path: /api/login
     methods: POST
+    host: '%app_host%'
+    schemes: '%allowed_schemes%'

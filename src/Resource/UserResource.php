@@ -38,13 +38,14 @@ readonly class UserResource
         ];
     }
 
-    public function getCreateResource(): array
+    public function getCreateResource(string $token): array
     {
         return [
             'id' => $this->id,
             'login' => $this->login,
             'phone' => $this->phone,
-            'pass' => (getenv('INCLUDE_CONFIDENTIAL_FIELDS') === 'true') ? $this->pass : '***'
+            'pass' => (getenv('INCLUDE_CONFIDENTIAL_FIELDS') === 'true') ? $this->pass : '***',
+            'token' => $token,
         ];
     }
 
@@ -57,10 +58,11 @@ readonly class UserResource
         ];
     }
 
-    public function getUpdateResource(): array
+    public function getUpdateResource(string $token): array
     {
         return [
-            'id' => $this->id
+            'id' => $this->id,
+            'token' => $token,
         ];
     }
 }
