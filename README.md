@@ -44,11 +44,11 @@ php bin/console doctrine:migrations:migrate
 ```
 POST
 create response:
-{"id":4,"login":"user4","phone":"09645678","pass":"***"}
+{"id":4,"login":"user4","phone":"09645678","pass":"***","token":"***...***"}
 
 PUT
 update response:
-{"id":2}
+{"id":2,"token":"***...***"}
 
 DELETE
 delete response:
