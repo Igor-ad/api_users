@@ -18,7 +18,7 @@ final class UserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW, self::EDIT, self::CREATE])
+        return in_array($attribute, [self::VIEW, self::EDIT, self::CREATE, self::DELETE])
             && $subject instanceof User;
     }
 
@@ -26,17 +26,15 @@ final class UserVoter extends Voter
     {
         $user = $token->getUser();
 
-        if ((!$user instanceof User) or (!in_array(Roles::User->value, $user->getRoles()))) {
+        if (!$this->supports($attribute, $subject)) {
             return false;
         }
 
-        if (in_array(Roles::Admin->value, $user->getRoles())) {
-            return true;
-        }
-
-        return match ($attribute) {
-            self::CREATE => true,
-            self::EDIT, self::VIEW => ($user->getId() === $subject->getId()),
+        return match (true) {
+            (in_array(Roles::Admin->value, $user->getRoles())),
+            ($attribute === self::CREATE) => true,
+            ($attribute === self::EDIT),
+            ($attribute === self::VIEW) => ($user->getId() === $subject->getId()),
             default => false
         };
     }
