@@ -49,7 +49,7 @@ class UserService
 
         $this->entityManager->flush();
 
-        return UserResource::fromEntity($updatedUser)->getUpdateResource();
+        return UserResource::fromEntity($user)->getUpdateResource();
     }
 
     public function delete(User $user): void
