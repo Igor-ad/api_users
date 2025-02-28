@@ -25,7 +25,7 @@ php bin/console doctrine:migrations:migrate
 ### Routes
 
 ```
-  Name               Method   Scheme   Host   Path
+  Name               Method   Scheme   Host         Path
   api_users_list     GET      http     localhost   /v1/api/users
   api_users_show     GET      http     localhost   /v1/api/users/{id}
   api_users_create   POST     http     localhost   /v1/api/users
@@ -36,62 +36,62 @@ php bin/console doctrine:migrations:migrate
 
 ### Security Warning!
 
-####  The test version with the .env.test environment uses unhashed passwords in the database and json responses.
+####  The test version with the .env.test environment uses unhashed passwords in the database.
 
 
-### Response Examples
+### Responses
 
 ```
 POST
 create response:
-{"id":4,"login":"user4","phone":"09645678","pass":"***","token":"***...***"}
+{"statusCode":201,"message":"New user created.","data":{"user":{"id":14,"login":"user9","phone":"09645678"},"token":"***"}}
 
 PUT
 update response:
-{"id":2,"token":"***...***"}
+{"statusCode":200,"message":"User information has been updated.","data":{"user":{"id":1},"token":"***"}}
 
 DELETE
 delete response:
-{"success":true}
+{"statusCode":200,"message":"The user has been removed from the system.","data":{"success":true}}
 
 GET
 list response:
-[{"id":1,"login":"admin1","phone":"06712345"},{"id":2,"login":"user1","phone":"05098754"},{"id":3,"login":"user2","phone":"06398754"}]
+{"statusCode":200,"message":"All users.","data":[{"id":1,"login":"admin1","phone":"06712345"},{"id":2,"login":"user1","phone":"0671231"},{"id":3,"login":"user2","phone":"09645678"}]}
 
 GET
 show response:
-{"login":"user1","phone":"0671231","pass":"***"}
+{"statusCode":200,"message":"View user information.","data":{"login":"user1","phone":"0671231"}}
 ```
 
 ### Errors
 
 ```
 Validation Error:
-{"code":400,"errors":[{"field":"phone","message":"This value is too long. It should have 8 characters or less.","invalidValue":"050456789"}]}
+{"status":"error","code":400,"message":"Validation exception.","errors":[{"field":"phone","message":"This value is too long. It should have 8 characters or less.","invalidValue":"050456789"}]}
 
 Access denied:
-{"code":403,"message":"Access denied to this resource."}
+{"status":"error","code":403,"message":"Access denied to this resource.","errors":null}
 
 Login error:
 {"code":401,"message":"Invalid credentials."}
 {"code":401,"message":"Invalid JWT Token"}
-{"code":401,"message":"Expired JWT Token"}[
+{"code":401,"message":"Expired JWT Token"}
 
 Invalid method:
-{"code":405,"message":"Method Not Allowed."}
+{"status":"error","code":405,"message":"Method Not Allowed.","errors":null}
 
 Resource not found:
-{"code":404,"error":"Not Found."}
+{"status":"error","code":404,"message":"Not Found.","errors":null}
 
 Database exception:
-{"code":500,"message":"Data Base Exception."}
+{"status":"error","code":500,"message":"Data Base Exception.","errors":null}
 
 Security exception:
-{"code":500,Security Runtime Exception."}
+{"status":"error","code":500,"message":Security Runtime Exception.","errors":null}
 
 Unexpected Value:
-{"code":500,Unexpected Value."}
+{"status":"error","code":500,"message":Unexpected Value.","errors":null}
 
 Bad Request:
-{"code":500,Bad Request."}
+{"status":"error","code":500,"message":Bad Request.","errors":null}
 ```

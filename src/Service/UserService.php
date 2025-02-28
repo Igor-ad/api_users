@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Resource\UserResource;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,16 +20,6 @@ class UserService
     ) {
     }
 
-    public function list(): array
-    {
-        $users = $this->repository->findAll();
-
-        return array_map(
-            fn(User $user) => UserResource::fromEntity($user)->toArray(),
-            $users
-        );
-    }
-
     public function create(User $user): array
     {
         $user = getenv('APP_ENV') == 'test' ? $user : $this->passwordHanding($user);
@@ -38,7 +27,10 @@ class UserService
         $this->repository->save($user, true);
         $token = $this->tokenManager->create($user);
 
-        return UserResource::fromEntity($user)->getCreateResource($token);
+        return [
+            'user' => $user,
+            'token' => $token
+        ];
     }
 
     public function update(User $user, User $updatedUser): array
@@ -50,15 +42,13 @@ class UserService
             $user = (getenv('APP_ENV') === 'test') ? $user : $this->passwordHanding($user);
         }
 
-        $token = $this->tokenManager->create($user);
         $this->entityManager->flush();
+        $token = $this->tokenManager->create($user);
 
-        return UserResource::fromEntity($user)->getUpdateResource($token);
-    }
-
-    public function delete(User $user): void
-    {
-        $this->repository->remove($user, true);
+        return [
+            'user' => $user,
+            'token' => $token
+        ];
     }
 
     private function passwordHanding(User $user): User
