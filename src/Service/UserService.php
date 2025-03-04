@@ -28,7 +28,7 @@ class UserService
         $token = $this->tokenManager->create($user);
 
         return [
-            'user' => $user,
+            'users' => $user,
             'token' => $token
         ];
     }
@@ -46,7 +46,7 @@ class UserService
         $token = $this->tokenManager->create($user);
 
         return [
-            'user' => $user,
+            'users' => $user,
             'token' => $token
         ];
     }

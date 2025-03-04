@@ -22,10 +22,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends BaseController
 {
     public function __construct(
-        protected SerializerInterface      $serializer,
-        protected ValidatorInterface       $validator,
-        protected UserService              $service,
-        protected UserRepository           $repository,
+        protected SerializerInterface $serializer,
+        protected ValidatorInterface  $validator,
+        protected UserService         $service,
+        protected UserRepository      $repository,
     ) {
         parent::__construct($this->serializer);
     }
@@ -34,13 +34,13 @@ class UserController extends BaseController
     #[IsGranted(Roles::Admin->value)]
     public function getUsers(): JsonResponse
     {
-        $users = $this->repository->findAll();
+        $resource = ['users' => $this->repository->findAll()];
 
         return $this->jsonResponse(
-            $users,
+            $resource,
             'All users.',
             Response::HTTP_OK,
-            ['public', 'detailed']
+            ['public', 'detail']
         );
     }
 
@@ -48,22 +48,35 @@ class UserController extends BaseController
     #[IsGranted(UserVoter::VIEW, subject: 'user')]
     public function show(User $user): JsonResponse
     {
-        return $this->jsonResponse($user, 'View user information.');
+        $group = (getenv('APP_ENV') === 'test') ? ['private', 'public'] : ['public'];
+
+        return $this->jsonResponse(
+            ['users' => [$user]],
+            'View user information.',
+            Response::HTTP_OK,
+            $group,
+        );
     }
 
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted(UserVoter::CREATE, new User());
-        $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
+        $user = $this->serializer->deserialize(
+            $request->getContent(),
+            User::class,
+            'json',
+            ['allow_extra_attributes' => false],
+        );
         $this->validate($user, ['create']);
         $resource = $this->service->create($user);
+        $group = (getenv('APP_ENV') === 'test') ? ['private', 'public', 'detail'] : ['public', 'detail'];
 
         return $this->jsonResponse(
             $resource,
             'New user created.',
             Response::HTTP_CREATED,
-            ['public', 'detailed']
+            $group,
         );
     }
 
@@ -71,7 +84,12 @@ class UserController extends BaseController
     #[IsGranted(UserVoter::EDIT, subject: 'user')]
     public function update(User $user, Request $request): JsonResponse
     {
-        $updatedUser = $this->serializer->deserialize($request->getContent(), User::class, 'json');
+        $updatedUser = $this->serializer->deserialize(
+            $request->getContent(),
+            User::class,
+            'json',
+            ['allow_extra_attributes' => false],
+        );
         $this->validate($updatedUser, ['update']);
         $resource = $this->service->update($user, $updatedUser);
 
@@ -79,7 +97,7 @@ class UserController extends BaseController
             $resource,
             'User information has been updated.',
             Response::HTTP_OK,
-            ['detailed']
+            ['detail'],
         );
     }
 

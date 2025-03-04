@@ -20,7 +20,7 @@ class User extends AbstractUserEntity
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['detailed'])]
+    #[Groups(['detail'])]
     private ?int $id = null;
 
     /**
@@ -45,6 +45,7 @@ class User extends AbstractUserEntity
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['private'])]
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 1, groups: ['update'])]
     #[Assert\Length(max: 8, groups: ['create', 'update'])]

@@ -44,33 +44,130 @@ php bin/console doctrine:migrations:migrate
 ```
 POST
 create response:
-{"statusCode":201,"message":"New user created.","data":{"user":{"id":14,"login":"user9","phone":"09645678"},"token":"***"}}
+{
+    "statusCode": 201,
+    "message": "New user created.",
+    "data": {
+        "users": {
+            "user": {
+                "id": 5,
+                "login": "user3",
+                "phone": "06755779"
+            }
+        },
+        "token": "***"
+    }
+}
 
 PUT
 update response:
-{"statusCode":200,"message":"User information has been updated.","data":{"user":{"id":1},"token":"***"}}
+{
+    "statusCode": 200,
+    "message": "User information has been updated.",
+    "data": {
+        "users": {
+            "user": {
+                "id": 1
+            }
+        },
+        "token": "***"
+    }
+}
 
 DELETE
 delete response:
-{"statusCode":200,"message":"The user has been removed from the system.","data":{"success":true}}
+{
+    "statusCode": 200,
+    "message": "The user has been removed from the system.",
+    "data": {
+        "success": true
+    }
+}
 
 GET
 list response:
-{"statusCode":200,"message":"All users.","data":[{"id":1,"login":"admin1","phone":"06712345"},{"id":2,"login":"user1","phone":"0671231"},{"id":3,"login":"user2","phone":"09645678"}]}
+{
+    "statusCode": 200,
+    "message": "All users.",
+    "data": {
+        "users": [
+            {
+                "user": {
+                    "id": 1,
+                    "login": "admin1",
+                    "phone": "06712345"
+                }
+            },
+            {
+                "user": {
+                    "id": 2,
+                    "login": "user1",
+                    "phone": "0671231"
+                }
+            },
+            {
+                "user": {
+                    "id": 3,
+                    "login": "user2",
+                    "phone": "09645678"
+                }
+            }
+        ]
+    }
+}
 
 GET
 show response:
-{"statusCode":200,"message":"View user information.","data":{"login":"user1","phone":"0671231"}}
+{
+    "statusCode": 200,
+    "message": "View user information.",
+    "data": {
+        "users": [
+            {
+                "user": {
+                    "login": "user1",
+                    "phone": "0671231"
+                }
+            }
+        ]
+    }
+}
 ```
 
 ### Errors
 
 ```
 Validation Error:
-{"status":"error","code":400,"message":"Validation exception.","errors":[{"field":"phone","message":"This value is too long. It should have 8 characters or less.","invalidValue":"050456789"}]}
+{
+    "status": "Bad Request",
+    "code": 400,
+    "message": "Validation exception.",
+    "errors": [
+        {
+            "field": "login",
+            "violationMessage": "This value should not be blank.",
+            "invalidValue": null
+        },
+        {
+            "field": "phone",
+            "violationMessage": "This value is too long. It should have 8 characters or less.",
+            "invalidValue": "113355991"
+        },
+        {
+            "field": "pass",
+            "violationMessage": "This value should not be blank.",
+            "invalidValue": null
+        }
+    ]
+}
 
 Access denied:
-{"status":"error","code":403,"message":"Access denied to this resource.","errors":null}
+{
+    "status": "Internal Server Error",
+    "code": 500,
+    "message": "Access Denied by #[IsGranted(\"USER_VIEW\", \"user\")] on controller",
+    "errors": null
+}
 
 Login error:
 {"code":401,"message":"Invalid credentials."}
@@ -78,20 +175,52 @@ Login error:
 {"code":401,"message":"Expired JWT Token"}
 
 Invalid method:
-{"status":"error","code":405,"message":"Method Not Allowed.","errors":null}
+{
+    "status": "Method Not Allowed",
+    "code": 405,
+    "message": "No route found for \"POST http://localhost/v1/api/users/1\": Method Not Allowed (Allow: GET, PUT, DELETE)",
+    "errors": null
+}
 
 Resource not found:
-{"status":"error","code":404,"message":"Not Found.","errors":null}
+{
+    "status": "Not Found",
+    "code": 404,
+    "message": "No route found for \"GET http://localhost/v1/api/user\"",
+    "errors": null
+}
+
+{
+    "status": "Not Found",
+    "code": 404,
+    "message": "\"App\\Entity\\User\" object not found by \"Symfony\\Bridge\\Doctrine\\ArgumentResolver\\EntityValueResolver\".",
+    "errors": null
+}
 
 Database exception:
-{"status":"error","code":500,"message":"Data Base Exception.","errors":null}
+{
+    "status": "Internal Server Error",
+    "code": 500,
+    "message": "An exception occurred while executing a query: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'user1' for key 'users.unique_login'",
+    "errors": null
+}
 
 Security exception:
 {"status":"error","code":500,"message":Security Runtime Exception.","errors":null}
 
 Unexpected Value:
-{"status":"error","code":500,"message":Unexpected Value.","errors":null}
+{
+    "status": "Internal Server Error",
+    "code": 500,
+    "message": "The type of the \"login\" attribute for class \"App\\Entity\\User\" must be one of \"string\" (\"int\" given).",
+    "errors": null
+}
 
 Bad Request:
-{"status":"error","code":500,"message":Bad Request.","errors":null}
+{
+    "status": "Bad Request",
+    "code": 400,
+    "message": "Extra attributes are not allowed (\"login-\" is unknown).",
+    "errors": null
+}
 ```
