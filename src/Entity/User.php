@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -20,7 +19,7 @@ class User extends AbstractUserEntity
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['detail'])]
+    #[Groups(['user:detail'])]
     private ?int $id = null;
 
     /**
@@ -31,24 +30,15 @@ class User extends AbstractUserEntity
      * For an application with encrypted passwords.
      */
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['public'])]
-    #[Assert\NotBlank(groups: ['create'])]
-    #[Assert\Length(min: 1, groups: ['update'])]
-    #[Assert\Length(max: 8, groups: ['create', 'update'])]
+    #[Groups(['user:public'])]
     private ?string $login = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['public'])]
-    #[Assert\NotBlank(groups: ['create'])]
-    #[Assert\Length(min: 1, groups: ['update'])]
-    #[Assert\Length(max: 8, groups: ['create', 'update'])]
+    #[Groups(['user:public'])]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['private'])]
-    #[Assert\NotBlank(groups: ['create'])]
-    #[Assert\Length(min: 1, groups: ['update'])]
-    #[Assert\Length(max: 8, groups: ['create', 'update'])]
+    #[Groups(['user:private'])]
     private ?string $pass = null;
 
     public function getId(): ?int

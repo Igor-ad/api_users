@@ -48,14 +48,13 @@ create response:
     "statusCode": 201,
     "message": "New user created.",
     "data": {
-        "users": {
-            "user": {
-                "id": 5,
-                "login": "user3",
-                "phone": "06755779"
-            }
-        },
-        "token": "***"
+        "id": 5,
+        "login": "user3",
+        "phone": "0335577",
+        "token": "***",
+        "roles": [
+            "ROLE_USER"
+        ]
     }
 }
 
@@ -65,12 +64,11 @@ update response:
     "statusCode": 200,
     "message": "User information has been updated.",
     "data": {
-        "users": {
-            "user": {
-                "id": 1
-            }
-        },
-        "token": "***"
+        "id": 1,
+        "token": "***",
+        "roles": [
+            "ROLE_USER"
+        ]
     }
 }
 
@@ -89,48 +87,50 @@ list response:
 {
     "statusCode": 200,
     "message": "All users.",
-    "data": {
-        "users": [
-            {
-                "user": {
-                    "id": 1,
-                    "login": "admin1",
-                    "phone": "06712345"
-                }
-            },
-            {
-                "user": {
-                    "id": 2,
-                    "login": "user1",
-                    "phone": "0671231"
-                }
-            },
-            {
-                "user": {
-                    "id": 3,
-                    "login": "user2",
-                    "phone": "09645678"
-                }
-            }
-        ]
-    }
+    "data": [
+        {
+            "id": 1,
+            "login": "admin1",
+            "phone": "06712345",
+            "roles": [
+                "ROLE_ADMIN",
+                "ROLE_USER"
+            ]
+        },
+        {
+            "id": 2,
+            "login": "user1",
+            "phone": "0671231",
+            "roles": [
+                "ROLE_USER"
+            ]
+        },
+        {
+            "id": 3,
+            "login": "user2",
+            "phone": "09645678",
+            "roles": [
+                "ROLE_USER"
+           ]
+        }
+    ]
 }
+
 
 GET
 show response:
 {
     "statusCode": 200,
     "message": "View user information.",
-    "data": {
-        "users": [
-            {
-                "user": {
-                    "login": "user1",
-                    "phone": "0671231"
-                }
-            }
-        ]
-    }
+    "data": [
+        {
+            "login": "user1",
+            "phone": "0671231",
+            "roles": [
+                "ROLE_USER"
+            ]
+        }
+    ]
 }
 ```
 

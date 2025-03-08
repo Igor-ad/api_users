@@ -23,7 +23,7 @@ class ExceptionListener
 
         switch (true) {
             case ($exception instanceof ValidationFailedException):
-                $errors = $this->validationException($exception);
+                $errors = $this->getValidationErrors($exception);
                 $flattened->setMessage('Validation exception.');
                 $flattened->setStatusCode(Response::HTTP_BAD_REQUEST);
                 break;
@@ -45,7 +45,7 @@ class ExceptionListener
         $event->setResponse($response);
     }
 
-    private function validationException(ValidationFailedException $exception): array
+    private function getValidationErrors(ValidationFailedException $exception): array
     {
         $errors = null;
         $violations = $exception->getViolations();

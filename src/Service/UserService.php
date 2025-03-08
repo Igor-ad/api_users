@@ -6,6 +6,9 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Resource\ResponseMapper;
+use App\Resource\UserRequestDto;
+use App\Resource\UserResponseDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,35 +23,28 @@ class UserService
     ) {
     }
 
-    public function create(User $user): array
+    public function create(UserRequestDto $userRequestDto): ResponseMapper
     {
+        $user = $userRequestDto->toEntity();
         $user = getenv('APP_ENV') == 'test' ? $user : $this->passwordHanding($user);
-        $user->setRoles();
         $this->repository->save($user, true);
         $token = $this->tokenManager->create($user);
 
-        return [
-            'users' => $user,
-            'token' => $token
-        ];
+        return UserResponseDto::fromEntity($user, $token);
     }
 
-    public function update(User $user, User $updatedUser): array
+    public function update(User $user, UserRequestDto $userRequestDto): ResponseMapper
     {
-        $user->setLogin($updatedUser->getLogin() ?? $user->getLogin());
-        $user->setPhone($updatedUser->getPhone() ?? $user->getPhone());
+        $user = $userRequestDto->updateEntity($user);
 
-        if (!is_null($updatedUser->getPass())) {
+        if (!is_null($userRequestDto->pass)) {
             $user = (getenv('APP_ENV') === 'test') ? $user : $this->passwordHanding($user);
         }
 
         $this->entityManager->flush();
         $token = $this->tokenManager->create($user);
 
-        return [
-            'users' => $user,
-            'token' => $token
-        ];
+        return UserResponseDto::fromEntity($user, $token);
     }
 
     private function passwordHanding(User $user): User

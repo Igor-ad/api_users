@@ -9,10 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class AbstractUserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    #[Groups(['user:public'])]
     protected array $roles = [Roles::User->value];
 
     public function getRoles(): array

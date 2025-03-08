@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Resource\ResponseMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,10 @@ abstract class BaseController extends AbstractController
     }
 
     protected function jsonResponse(
-        mixed  $data = null,
-        string $message = '',
-        int    $statusCode = Response::HTTP_OK,
-        array $groups = ['public'],
+        ResponseMapper|array $data,
+        string               $message = '',
+        int                  $statusCode = Response::HTTP_OK,
+        array                $groups = ['user:public'],
     ): JsonResponse {
         $response =
             [
